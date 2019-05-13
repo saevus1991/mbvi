@@ -1,0 +1,42 @@
+In[1]:= g1=m1[t];
+g2 = m4[t]+m1[t]*m2[t];
+g3 = m4[t]+m1[t]*m2[t];
+g4 = m2[t];
+I1 =g1*(c1-alpha1[t]+alpha1[t]*Log[alpha1[t]/c1]);
+I2=g2*(c2-alpha2[t]+alpha2[t]*Log[alpha2[t]/c2]);
+I3=g3*(c3-alpha3[t]+alpha3[t]*Log[alpha3[t]/c3]);
+I4 =g4*(c4-alpha4[t]+alpha4[t]*Log[alpha4[t]/c4]);
+KL=I1+I2+I3+I4
+Out[9]= (c1-alpha1[t]+alpha1[t] Log[alpha1[t]/c1]) m1[t]+(c4-alpha4[t]+alpha4[t] Log[alpha4[t]/c4]) m2[t]+(c2-alpha2[t]+alpha2[t] Log[alpha2[t]/c2]) (m1[t] m2[t]+m4[t])+(c3-alpha3[t]+alpha3[t] Log[alpha3[t]/c3]) (m1[t] m2[t]+m4[t])
+In[10]:= J1=alpha1[t]*m1[t]-alpha2[t]*(m4[t]+m1[t]*m2[t])-D[m1[t],t]
+J2=alpha3[t]*(m4[t]+m1[t]*m2[t])-alpha4[t]*m2[t]-D[m2[t],t]
+J3 = 2*alpha1[t]*m3[t]+alpha1[t]*m1[t]+alpha2[t]*(m4[t]+m1[t]*m2[t])-2*alpha2[t]*(m112-(m4[t]+m1[t]*m2[t])*m1[t])-D[m3[t],t]
+J4 = alpha1[t]*m4[t]-alpha2[t]*m122+alpha2[t]*(m4[t]+m1[t]*m2[t])*m2[t]+alpha3[t]*m112-alpha3[t]*(m4[t]+m1[t]*m2[t])*m1[t]-alpha4[t]*m4[t]-D[m4[t],t]
+J5=2*alpha3[t]*(m122-(m4[t]+m1[t]*m2[t])*m2[t])+alpha3[t]*(m4[t]+m1[t]*m2[t])-2*alpha4[t]*m5[t]+alpha4[t]*m2[t]-D[m5[t],t]
+Out[10]= alpha1[t] m1[t]-alpha2[t] (m1[t] m2[t]+m4[t])-(m1^′)[t]
+Out[11]= -alpha4[t] m2[t]+alpha3[t] (m1[t] m2[t]+m4[t])-(m2^′)[t]
+Out[12]= alpha1[t] m1[t]+2 alpha1[t] m3[t]+alpha2[t] (m1[t] m2[t]+m4[t])-2 alpha2[t] (m112-m1[t] (m1[t] m2[t]+m4[t]))-(m3^′)[t]
+Out[13]= -m122 alpha2[t]+m112 alpha3[t]+alpha1[t] m4[t]-alpha4[t] m4[t]-alpha3[t] m1[t] (m1[t] m2[t]+m4[t])+alpha2[t] m2[t] (m1[t] m2[t]+m4[t])-(m4^′)[t]
+Out[14]= alpha4[t] m2[t]+alpha3[t] (m1[t] m2[t]+m4[t])+2 alpha3[t] (m122-m2[t] (m1[t] m2[t]+m4[t]))-2 alpha4[t] m5[t]-(m5^′)[t]
+In[15]:= L=KL-eta1[t]*J1-eta2[t]*J2-eta3[t]*J3-eta4[t]*J4-eta5[t]*J5
+Out[15]= (c1-alpha1[t]+alpha1[t] Log[alpha1[t]/c1]) m1[t]+(c4-alpha4[t]+alpha4[t] Log[alpha4[t]/c4]) m2[t]+(c2-alpha2[t]+alpha2[t] Log[alpha2[t]/c2]) (m1[t] m2[t]+m4[t])+(c3-alpha3[t]+alpha3[t] Log[alpha3[t]/c3]) (m1[t] m2[t]+m4[t])-eta1[t] (alpha1[t] m1[t]-alpha2[t] (m1[t] m2[t]+m4[t])-(m1^′)[t])-eta2[t] (-alpha4[t] m2[t]+alpha3[t] (m1[t] m2[t]+m4[t])-(m2^′)[t])-eta3[t] (alpha1[t] m1[t]+2 alpha1[t] m3[t]+alpha2[t] (m1[t] m2[t]+m4[t])-2 alpha2[t] (m112-m1[t] (m1[t] m2[t]+m4[t]))-(m3^′)[t])-eta4[t] (-m122 alpha2[t]+m112 alpha3[t]+alpha1[t] m4[t]-alpha4[t] m4[t]-alpha3[t] m1[t] (m1[t] m2[t]+m4[t])+alpha2[t] m2[t] (m1[t] m2[t]+m4[t])-(m4^′)[t])-eta5[t] (alpha4[t] m2[t]+alpha3[t] (m1[t] m2[t]+m4[t])+2 alpha3[t] (m122-m2[t] (m1[t] m2[t]+m4[t]))-2 alpha4[t] m5[t]-(m5^′)[t])
+In[16]:= L = (L/.{m112->(m3[t]+m1[t]^2-m1[t])/m2[t]*((m4[t]+m1[t]*m2[t])/m1[t])^2+m4[t]+m1[t]*m2[t]});
+In[17]:= L=(L/.{m122->(m5[t]+m2[t]^2-m2[t])/m1[t]*((m4[t]+m1[t]*m2[t])/m2[t])^2+m4[t]+m1[t]*m2[t]});
+In[18]:= beq1=D[L,m1[t]]-D[D[L,D[m1[t],t]],t]
+beq2=D[L,m2[t]]-D[D[L,D[m2[t],t]],t]
+beq3=D[L,m3[t]]-D[D[L,D[m3[t],t]],t]
+beq4=D[L,m4[t]]-D[D[L,D[m4[t],t]],t]
+beq5=D[L,m5[t]]-D[D[L,D[m5[t],t]],t]
+Out[18]= c1-alpha1[t]+alpha1[t] Log[alpha1[t]/c1]-alpha3[t] eta2[t] m2[t]+(c2-alpha2[t]+alpha2[t] Log[alpha2[t]/c2]) m2[t]+(c3-alpha3[t]+alpha3[t] Log[alpha3[t]/c3]) m2[t]-eta1[t] (alpha1[t]-alpha2[t] m2[t])-eta3[t] (alpha1[t]+alpha2[t] m2[t]-2 alpha2[t] (m2[t]-2 m1[t] m2[t]-m4[t]+(2 (-m1[t]+m1[t]^2+m3[t]) (m1[t] m2[t]+m4[t]))/m1[t]^2+((-1+2 m1[t]) (m1[t] m2[t]+m4[t])^2)/(m1[t]^2 m2[t])-(2 (-m1[t]+m1[t]^2+m3[t]) (m1[t] m2[t]+m4[t])^2)/(m1[t]^3 m2[t])))-eta4[t] (-alpha3[t] m1[t] m2[t]+alpha2[t] m2[t]^2-alpha3[t] (m1[t] m2[t]+m4[t])+alpha3[t] (m2[t]+(2 (-m1[t]+m1[t]^2+m3[t]) (m1[t] m2[t]+m4[t]))/m1[t]^2+((-1+2 m1[t]) (m1[t] m2[t]+m4[t])^2)/(m1[t]^2 m2[t])-(2 (-m1[t]+m1[t]^2+m3[t]) (m1[t] m2[t]+m4[t])^2)/(m1[t]^3 m2[t]))-alpha2[t] (m2[t]+(2 (m1[t] m2[t]+m4[t]) (-m2[t]+m2[t]^2+m5[t]))/(m1[t] m2[t])-((m1[t] m2[t]+m4[t])^2 (-m2[t]+m2[t]^2+m5[t]))/(m1[t]^2 m2[t]^2)))-eta5[t] (alpha3[t] m2[t]+2 alpha3[t] (m2[t]-m2[t]^2+(2 (m1[t] m2[t]+m4[t]) (-m2[t]+m2[t]^2+m5[t]))/(m1[t] m2[t])-((m1[t] m2[t]+m4[t])^2 (-m2[t]+m2[t]^2+m5[t]))/(m1[t]^2 m2[t]^2)))-(eta1^′)[t]
+Out[19]= c4-alpha4[t]+alpha4[t] Log[alpha4[t]/c4]+alpha2[t] eta1[t] m1[t]+(c2-alpha2[t]+alpha2[t] Log[alpha2[t]/c2]) m1[t]+(c3-alpha3[t]+alpha3[t] Log[alpha3[t]/c3]) m1[t]-eta2[t] (-alpha4[t]+alpha3[t] m1[t])-eta3[t] (alpha2[t] m1[t]-2 alpha2[t] (m1[t]-m1[t]^2+(2 (-m1[t]+m1[t]^2+m3[t]) (m1[t] m2[t]+m4[t]))/(m1[t] m2[t])-((-m1[t]+m1[t]^2+m3[t]) (m1[t] m2[t]+m4[t])^2)/(m1[t]^2 m2[t]^2)))-eta4[t] (-alpha3[t] m1[t]^2+alpha2[t] m1[t] m2[t]+alpha2[t] (m1[t] m2[t]+m4[t])+alpha3[t] (m1[t]+(2 (-m1[t]+m1[t]^2+m3[t]) (m1[t] m2[t]+m4[t]))/(m1[t] m2[t])-((-m1[t]+m1[t]^2+m3[t]) (m1[t] m2[t]+m4[t])^2)/(m1[t]^2 m2[t]^2))-alpha2[t] (m1[t]+((-1+2 m2[t]) (m1[t] m2[t]+m4[t])^2)/(m1[t] m2[t]^2)+(2 (m1[t] m2[t]+m4[t]) (-m2[t]+m2[t]^2+m5[t]))/m2[t]^2-(2 (m1[t] m2[t]+m4[t])^2 (-m2[t]+m2[t]^2+m5[t]))/(m1[t] m2[t]^3)))-eta5[t] (alpha4[t]+alpha3[t] m1[t]+2 alpha3[t] (m1[t]-2 m1[t] m2[t]-m4[t]+((-1+2 m2[t]) (m1[t] m2[t]+m4[t])^2)/(m1[t] m2[t]^2)+(2 (m1[t] m2[t]+m4[t]) (-m2[t]+m2[t]^2+m5[t]))/m2[t]^2-(2 (m1[t] m2[t]+m4[t])^2 (-m2[t]+m2[t]^2+m5[t]))/(m1[t] m2[t]^3)))-(eta2^′)[t]
+Out[20]= -((alpha3[t] eta4[t] (m1[t] m2[t]+m4[t])^2)/(m1[t]^2 m2[t]))-eta3[t] (2 alpha1[t]-(2 alpha2[t] (m1[t] m2[t]+m4[t])^2)/(m1[t]^2 m2[t]))-(eta3^′)[t]
+Out[21]= c2+c3-alpha2[t]-alpha3[t]+alpha2[t] eta1[t]-alpha3[t] eta2[t]+alpha2[t] Log[alpha2[t]/c2]+alpha3[t] Log[alpha3[t]/c3]-eta3[t] (alpha2[t]-2 alpha2[t] (1-m1[t]+(2 (-m1[t]+m1[t]^2+m3[t]) (m1[t] m2[t]+m4[t]))/(m1[t]^2 m2[t])))-eta4[t] (alpha1[t]-alpha4[t]-alpha3[t] m1[t]+alpha2[t] m2[t]+alpha3[t] (1+(2 (-m1[t]+m1[t]^2+m3[t]) (m1[t] m2[t]+m4[t]))/(m1[t]^2 m2[t]))-alpha2[t] (1+(2 (m1[t] m2[t]+m4[t]) (-m2[t]+m2[t]^2+m5[t]))/(m1[t] m2[t]^2)))-eta5[t] (alpha3[t]+2 alpha3[t] (1-m2[t]+(2 (m1[t] m2[t]+m4[t]) (-m2[t]+m2[t]^2+m5[t]))/(m1[t] m2[t]^2)))-(eta4^′)[t]
+Out[22]= (alpha2[t] eta4[t] (m1[t] m2[t]+m4[t])^2)/(m1[t] m2[t]^2)-eta5[t] (-2 alpha4[t]+(2 alpha3[t] (m1[t] m2[t]+m4[t])^2)/(m1[t] m2[t]^2))-(eta5^′)[t]
+In[23]:= ceq1=D[L,alpha1[t]]
+ceq2=D[L,alpha2[t]]
+ceq3=D[L,alpha3[t]]
+ceq4=D[L,alpha4[t]]
+Out[23]= -eta1[t] m1[t]+Log[alpha1[t]/c1] m1[t]-eta3[t] (m1[t]+2 m3[t])-eta4[t] m4[t]
+Out[24]= -eta1[t] (-m1[t] m2[t]-m4[t])+Log[alpha2[t]/c2] (m1[t] m2[t]+m4[t])-eta3[t] (m1[t] m2[t]+m4[t]-2 (m1[t] m2[t]+m4[t]-m1[t] (m1[t] m2[t]+m4[t])+((-m1[t]+m1[t]^2+m3[t]) (m1[t] m2[t]+m4[t])^2)/(m1[t]^2 m2[t])))-eta4[t] (-m1[t] m2[t]-m4[t]+m2[t] (m1[t] m2[t]+m4[t])-((m1[t] m2[t]+m4[t])^2 (-m2[t]+m2[t]^2+m5[t]))/(m1[t] m2[t]^2))
+Out[25]= -eta2[t] (m1[t] m2[t]+m4[t])+Log[alpha3[t]/c3] (m1[t] m2[t]+m4[t])-eta4[t] (m1[t] m2[t]+m4[t]-m1[t] (m1[t] m2[t]+m4[t])+((-m1[t]+m1[t]^2+m3[t]) (m1[t] m2[t]+m4[t])^2)/(m1[t]^2 m2[t]))-eta5[t] (m1[t] m2[t]+m4[t]+2 (m1[t] m2[t]+m4[t]-m2[t] (m1[t] m2[t]+m4[t])+((m1[t] m2[t]+m4[t])^2 (-m2[t]+m2[t]^2+m5[t]))/(m1[t] m2[t]^2)))
+Out[26]= eta2[t] m2[t]+Log[alpha4[t]/c4] m2[t]+eta4[t] m4[t]-eta5[t] (m2[t]-2 m5[t])
